@@ -21,9 +21,11 @@ export default function Home({ items }) {
       </Head>
       <h1>Home page</h1>
       {items.map((item, index) => (
-        <Link href={"/" + item._id} key={index}>
-          {item.text}
-        </Link>
+        <div key={index}>
+          <Link href={"/" + item._id} >
+            {item.text}
+          </Link>
+        </div>
       ))}
     </div>
   );

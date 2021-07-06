@@ -32,6 +32,9 @@ const Details = ({ item }) => {
   return (
     <div>
       <h1>{item.text}</h1>
+      <span>€{item.price}</span>
+      <br />
+      <button>Checkout</button>
     </div>
   );
 };
