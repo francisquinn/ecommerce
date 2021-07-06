@@ -1,10 +1,10 @@
 import Head from "next/head";
 import axios from "axios";
+import Link from "next/link";
 
 export const getStaticProps = async () => {
-
-  const res = await axios.get('https://ecom-test-server.herokuapp.com/items')
-  const data = await res.data
+  const res = await axios.get("https://ecom-test-server.herokuapp.com/items");
+  const data = await res.data;
 
   return {
     props: { items: data },
@@ -21,7 +21,9 @@ export default function Home({ items }) {
       </Head>
       <h1>Home page</h1>
       {items.map((item, index) => (
-        <span key={index}>{item.text}</span>
+        <Link href={"/" + item._id} key={index}>
+          {item.text}
+        </Link>
       ))}
     </div>
   );
