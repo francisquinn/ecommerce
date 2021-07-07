@@ -31,10 +31,16 @@ export const getStaticProps = async (context) => {
 const Details = ({ item }) => {
   return (
     <div>
-      <h1>{item.text}</h1>
-      <span>€{item.price}</span>
-      <br />
-      <button>Checkout</button>
+      <form
+        action="https://ecom-test-server.herokuapp.com/checkout"
+        method="POST"
+      >
+        <h1 name="itemText">{item.text}</h1>
+        <span name="itemPrice">€{item.price}</span>
+        <br />
+
+        <button type="submit">Checkout</button>
+      </form>
     </div>
   );
 };
