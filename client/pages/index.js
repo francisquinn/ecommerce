@@ -3,7 +3,7 @@ import axios from "axios";
 import Link from "next/link";
 
 export const getStaticProps = async () => {
-  const res = await axios.get("https://ecom-test-server.herokuapp.com/items");
+  const res = await axios.get("http://localhost:8080/items");
   const data = await res.data;
 
   return {
@@ -22,8 +22,8 @@ export default function Home({ items }) {
       <h1>Home page</h1>
       {items.map((item, index) => (
         <div key={index}>
-          <Link href={"/" + item._id} >
-            {item.text}
+          <Link href={"/" + item.id}>
+            {item.name + "/" + item.price} 
           </Link>
         </div>
       ))}

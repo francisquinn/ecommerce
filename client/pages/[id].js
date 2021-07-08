@@ -1,12 +1,12 @@
 import axios from "axios";
 
 export const getStaticPaths = async () => {
-  const res = await axios.get("https://ecom-test-server.herokuapp.com/items");
+  const res = await axios.get("http://localhost:8080/items");
   const data = await res.data;
 
   const paths = data.map((item) => {
     return {
-      params: { id: item._id },
+      params: { id: item.id },
     };
   });
 
@@ -19,7 +19,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
   const id = context.params.id;
   const res = await axios.get(
-    "https://ecom-test-server.herokuapp.com/items/" + id
+    "http://localhost:8080/items/item/" + id
   );
   const data = await res.data;
 
@@ -32,12 +32,16 @@ const Details = ({ item }) => {
   return (
     <div>
       <form
-        action="https://ecom-test-server.herokuapp.com/checkout"
+        action="http://localhost:8080/items/checkout"
         method="POST"
       >
-        <h1 name="itemText">{item.text}</h1>
-        <span name="itemPrice">€{item.price}</span>
+        <h1>{item.name}</h1>
+        <span>€{item.price}</span>
         <br />
+
+        <input type="hidden" name="item" value={item.name} />
+        <input type="hidden" name="price" value={item.price_id} />
+        <input type="text" name="quantity" value="3" />
 
         <button type="submit">Checkout</button>
       </form>

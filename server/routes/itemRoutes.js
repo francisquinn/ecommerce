@@ -3,8 +3,9 @@ const router = express.Router();
 const itemController = require("../controllers/itemController");
 
 router.get("/", itemController.items);
-//router.get("/checkout", itemController.item_checkout);
-router.get("/:id", itemController.single_item);
 
+router.post("/checkout", itemController.item_checkout);
+
+router.get("/item/:id", itemController.getItem);
 
 module.exports = router;
