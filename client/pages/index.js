@@ -20,13 +20,22 @@ export default function Home({ items }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>Home page</h1>
-      {items.map((item, index) => (
-        <div key={index}>
-          <Link href={"/" + item.id}>
-            {item.name + "/" + item.price} 
-          </Link>
-        </div>
-      ))}
+      <form action="http://localhost:8080/items/checkout" method="POST">
+        {items.map((item, index) => (
+          /*<div key={index}>
+            <Link href={"/" + item.id}>{item.name + "/" + item.price}</Link>
+          </div>*/
+          <div key={index}>
+            <input type="text" readOnly name={"items[item_" + index + "][name]"} value={item.name} />
+            <input type="text" readOnly value={item.price} />
+            <input type="text" readOnly name={"items[item_" + index + "][quantity]"} value={item.quantity} />
+            <input type="hidden" name={"items[item_" + index + "][price]"} value={item.price_id} />
+          </div>
+          
+        ))}
+
+        <button type="submit">Checkout</button>
+      </form>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 require("dotenv").config();
+
 const stripe = require("stripe")(process.env.STRIPE_SK);
 
 const items = async (req, res) => {
@@ -22,7 +23,9 @@ const items = async (req, res) => {
     const product_item = {
       id: product_id,
       name: product_name,
+      price_id: val.id,
       price: product_price,
+      quantity: 3,
     };
     // Add JSON object to the array
     items.push(product_item);
@@ -31,28 +34,33 @@ const items = async (req, res) => {
 };
 
 const item_checkout = async (req, res) => {
-  const price_id = req.body.price; // extract the price_id from the request body
+  var items_array = [];
+  var cart_items = req.body.items;
 
-  // retrieve the price with the id
-  const price = await stripe.prices
-    .retrieve(price_id)
-    .catch((error) => console.log(error));
+  for (const key of Object.keys(cart_items)) {
+    const cart_item = cart_items[key];
+    // retrieve the price with the id
+    const price = await stripe.prices
+      .retrieve(cart_item.price)
+      .catch((error) => console.log(error));
+
+    const line_item = {
+      price_data: {
+        currency: "eur",
+        product_data: {
+          name: cart_item.name,
+        },
+        unit_amount: price.unit_amount,
+      },
+      quantity: cart_item.quantity,
+    };
+    items_array.push(line_item);
+  }
 
   // create the checkout session
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
-    line_items: [
-      {
-        price_data: {
-          currency: "eur",
-          product_data: {
-            name: req.body.item,
-          },
-          unit_amount: price.unit_amount,
-        },
-        quantity: req.body.quantity,
-      },
-    ],
+    line_items: items_array,
     mode: "payment",
     success_url: "https://example.com",
     cancel_url: "https://example.com",
