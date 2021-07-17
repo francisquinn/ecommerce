@@ -3,7 +3,23 @@ const Schema = mongoose.Schema;
 
 // Schema - defines data
 const itemSchema = new Schema({
-    text: {
+    product_id: {
+        type: String,
+        required: true
+    },
+    price_id: {
+        type: String,
+        required: true
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    price: {
+        type: String,
+        required: true
+    },
+    quantity: {
         type: String,
         required: true
     }

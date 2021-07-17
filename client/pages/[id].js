@@ -32,7 +32,6 @@ const Details = ({ item }) => {
         <h1>{item.name}</h1>
         <span>€{item.price}</span>
         <br />
-
         <button type="submit">Add to cart</button>
     </div>
   );
